@@ -1,0 +1,149 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="12dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- User Avatar/Face Image -->
+
+            <!-- User Name -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_face_detection"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="2dp" />
+
+            <!-- User ID or Registration Date -->
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:text="John Doe"
+                android:textColor="#2C3E50"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/userAvatar"
+                app:layout_constraintTop_toTopOf="@id/userAvatar" />
+
+            <TextView
+                android:id="@+id/userInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="ID:256 "
+                android:textColor="#7F8C8D"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/userName"
+                app:layout_constraintStart_toStartOf="@id/userName"
+                app:layout_constraintTop_toBottomOf="@id/userName" />
+
+
+            <!-- Status Badge -->
+
+            <!-- Delete Button -->
+
+            <TextView
+                android:id="@+id/dateinfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Added 2 days ago"
+                android:textColor="#7F8C8D"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/userInfo"
+                app:layout_constraintStart_toStartOf="@+id/userInfo"
+                app:layout_constraintTop_toBottomOf="@+id/userInfo" />
+
+            <TextView
+                android:id="@+id/statusBadge"
+                android:layout_width="0.dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/status_badge"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="Active"
+                android:textColor="#27AE60"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/userAvatar"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/userAvatar"
+                app:layout_constraintTop_toBottomOf="@+id/userAvatar" />
+
+            <LinearLayout
+                android:background="@drawable/background_rounded2"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.205">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Delete user"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:text="ID"
+                    android:textColor="@color/black"
+                    android:textSize="21.sp"
+                    android:textStyle="bold"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/uniqueId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Delete user"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:text="01"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+
+

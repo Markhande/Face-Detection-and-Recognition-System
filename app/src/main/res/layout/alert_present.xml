@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:background="@drawable/background_glass"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Image Display -->
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginBottom="5.dp"
+                    android:textSize="16.sp"
+                    android:textColor="@color/white"
+                    android:text="Live"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/imagePreview"
+                    android:layout_width="100.dp"
+                    android:layout_height="100.dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0.dp"
+                android:layout_height="0.dp"
+                android:layout_weight="0.5">
+            </View>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginBottom="5.dp"
+                    android:id="@+id/accuracy"
+                    android:textSize="16.sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="Accuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/percent"
+                    android:text="90%"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/background_glass"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/faceId"
+                    android:textSize="20.sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="ID: 21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+
+
+
+            <View
+                android:layout_width="0.dp"
+                android:layout_height="0.dp"
+                android:layout_weight="0.5">
+            </View>
+
+            <!-- Image Display -->
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginBottom="5.dp"
+                    android:textSize="16.sp"
+                    android:textColor="@color/white"
+                    android:text="Matched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/showImageDataSet"
+                    android:layout_width="100.dp"
+                    android:layout_height="100.dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginVertical="5dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="1.dp">
+        </View>
+
+        <TextView
+            android:id="@+id/matchedName"
+            android:layout_marginVertical="10.sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16.dp"
+            android:layout_gravity="start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: Hemant Markhande">
+        </TextView>
+
+        <!-- Save Button -->
+        <!-- Cancel Button (now styled more like a clickable button) -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_weight="0.5"
+                android:id="@+id/checkAgain"
+                android:text="Check Again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:padding="12dp"/>
+            <View
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="0.dp"
+                android:layout_height="0.dp">
+            </View>
+
+            <Button
+                android:layout_weight="0.5"
+                android:text="View More"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_700"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:padding="12dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

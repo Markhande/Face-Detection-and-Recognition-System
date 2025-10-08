@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:backgroundTint="#DD48585F"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:background="@drawable/background_rounded2"
+        android:layout_gravity="center">
+
+        <!-- Cancel Button (now styled more like a clickable button) -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/updatecancelBtn"
+                android:text="Cancel"
+                android:textColor="@color/teal_700"
+                android:background="@drawable/background_rounded2"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"/>
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0.dp"
+                android:layout_height="0.dp">
+            </View>
+
+            <TextView
+                android:id="@+id/updatedeleteButton"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/ic_delete"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"/>
+        </LinearLayout>
+
+
+        <!-- Image Display -->
+        <ImageView
+            android:id="@+id/updateImage"
+            android:layout_width="100.dp"
+            android:layout_height="100.dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Name Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name"
+            app:boxStrokeColor="@color/white"
+            app:hintTextColor="@color/white"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateName"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/updateFaceDetails"
+            android:text="Update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_200"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:padding="12dp"/>
+    </LinearLayout>
+
+</ScrollView>
