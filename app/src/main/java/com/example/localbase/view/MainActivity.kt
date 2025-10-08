@@ -88,10 +88,6 @@ class MainActivity : AppCompatActivity() {
         // Initialize camera executor
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        binding.reset.setOnClickListener {
-            binding.floatArrayPoint.text = null
-        }
-
         startCamera()
 
     }
@@ -123,6 +119,8 @@ class MainActivity : AppCompatActivity() {
 
             // Select front camera
             val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+
+            binding.reset.setOnClickListener { }
 
             try {
                 // Unbind all use cases before rebinding
