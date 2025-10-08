@@ -278,28 +278,24 @@ class CheckFace : AppCompatActivity() {
 
                 for (i in it) {
                     val secondFace = i.grades
-                    val matching =
-                        faceEmbeddingHelper.cosineSimilarityPercentage(embedding, secondFace)
+                    val matching = faceEmbeddingHelper.cosineSimilarityPercentage(embedding, secondFace)
                     Log.d("simularities", "${i.name} → ${matching.toInt()}%")
 
                     if (matching > 75) {
                         stopCamera()
-                        showAlert(i, face)
+                        showAlert(i, face, matching)
                         break
                     } else {
-                        toolBar
+                        restartFaceDetection()
+                        toolBar.showSnackbar(binding.root, "Not Matched")
                     }
                 }
             }
         }
     }
 
-
-
-
-
     @SuppressLint("MissingInflatedId", "CheckResult")
-    private fun showAlert(student: Student, face: FaceDetectionProcessor.ProcessedFace) {
+    private fun showAlert(student: Student, face: FaceDetectionProcessor.ProcessedFace, matching: Float) {
         val viewLayout = LayoutInflater.from(this).inflate(R.layout.alert_present, null)
 
         val builder = AlertDialog.Builder(this)
@@ -340,7 +336,7 @@ class CheckFace : AppCompatActivity() {
 
         // Set match percentage
         val percentTextView = viewLayout.findViewById<TextView>(R.id.percent)
-        percentTextView.text = "${toolBar.cropToPercentage(face.confidence)}%"
+        percentTextView.text = matching.toInt().toString()+"%"
 
         // Retry button
         val checkAgainButton = viewLayout.findViewById<Button>(R.id.checkAgain)

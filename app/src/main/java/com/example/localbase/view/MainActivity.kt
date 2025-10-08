@@ -238,6 +238,9 @@ class MainActivity : AppCompatActivity() {
 
             val embedding = faceEmbeddingHelper.getFaceEmbedding(face.normalizedFace)
 
+            for (i in embedding){
+                Log.d("facevalue", i.toString())
+            }
             saveFaceValue(
                 face = face.normalizedFace,
                 faceDetails = embedding,
