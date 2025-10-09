@@ -52,8 +52,11 @@ import org.tensorflow.lite.Interpreter
 import java.io.ByteArrayOutputStream
 import androidx.core.graphics.createBitmap
 import com.bumptech.glide.Glide
+import com.example.localbase.databinding.AlertImageNotFoundBinding
+import com.example.localbase.databinding.AlertPresentBinding
 import com.example.localbase.face.FaceDetectionProcessor
 import com.example.localbase.face.FaceEmbeddingHelper
+import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import com.example.localbase.overlayes.FaceOverlayView
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +94,7 @@ class CheckFace : AppCompatActivity() {
     private lateinit var faceOverlay: FaceOverlayView
     private var faceDetectedStartTime: Long = 0L
     private var hasCapturedImage = false
-    private val facePresenceThreshold = 1000L
+    private val facePresenceThreshold = 0L
 
     private var capturedBitmap: Bitmap? = null
 
@@ -231,8 +234,9 @@ class CheckFace : AppCompatActivity() {
                 override fun onCaptureSuccess(imageProxy: ImageProxy) {
                     val bitmap = toolBar.imageProxyToBitmap(imageProxy) ?: return
                     capturedBitmap = bitmap
-
-                    processImage(capturedBitmap!!)
+                    val imagRotaed = toolBar.rotateBitmap(capturedBitmap!!, -90f)
+                    processImage(imagRotaed)
+                    //processImage(capturedBitmap!!)
 
                     imageProxy.close()
                 }
@@ -255,6 +259,8 @@ class CheckFace : AppCompatActivity() {
 
         processedFaces.forEachIndexed { index, face ->
             Log.d("FaceDetection", "Face $index detected with confidence: ${face.confidence}")
+            val confidance =  toolBar.cropToPercentage(face.confidence).toInt()
+            Log.d("FaceDetection", toolBar.cropToPercentage(face.confidence))
 
             // Save cropped face
             toolBar.saveBitmapToFile(face.croppedFace, "face_${index}_cropped.jpg")
@@ -276,31 +282,43 @@ class CheckFace : AppCompatActivity() {
             studentViewModel.allStudents.observe(this) {
                 //Log.d("checking", temp.toString())
 
+                val faceitemSize = it.size
+                var facevaleu = faceitemSize
+                Log.d("imageSize", faceitemSize.toString())
+
                 for (i in it) {
                     val secondFace = i.grades
-                    val matching = faceEmbeddingHelper.cosineSimilarityPercentage(embedding, secondFace)
+                    val matching =
+                        faceEmbeddingHelper.cosineSimilarityPercentage(embedding, secondFace)
                     Log.d("simularities", "${i.name} → ${matching.toInt()}%")
 
-                    if (matching > 75) {
+                    if (matching > 75 && confidance > 80 ) {
                         stopCamera()
                         showAlert(i, face, matching)
                         break
                     } else {
-                        restartFaceDetection()
-                        toolBar.showSnackbar(binding.root, "Not Matched")
+                        if (facevaleu == 1) {
+                            showFaceNotFoundDialog(i, face)
+                        }
                     }
+
+                    facevaleu--
                 }
             }
         }
     }
 
     @SuppressLint("MissingInflatedId", "CheckResult")
-    private fun showAlert(student: Student, face: FaceDetectionProcessor.ProcessedFace, matching: Float) {
+    private fun showAlert(
+        student: Student,
+        face: FaceDetectionProcessor.ProcessedFace,
+        accuracy: Float
+    ) {
         val viewLayout = LayoutInflater.from(this).inflate(R.layout.alert_present, null)
 
         val builder = AlertDialog.Builder(this)
             .setView(viewLayout)
-            .setCancelable(false)
+            .setCancelable(true)
             .create()
 
         builder.window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -310,7 +328,7 @@ class CheckFace : AppCompatActivity() {
         val imagePreview = viewLayout.findViewById<ImageView>(R.id.imagePreview)
         Glide.with(this)
             .load(face.normalizedFace)
-            .circleCrop()
+           // .transform(RotateTransformation(180f))
             .into(imagePreview)
         Log.d("check", face.normalizedFace.toString())
 
@@ -319,10 +337,15 @@ class CheckFace : AppCompatActivity() {
         student.imagePath?.let {
             Glide.with(this)
                 .load(File(it))
-                .circleCrop()
+                .transform(RotateTransformation(90f))
                 .into(imageDataset)
 
             Log.d("check", it)
+        }
+
+        builder.setOnCancelListener {
+            builder.dismiss()
+            restartFaceDetection()
         }
 
 
@@ -336,7 +359,7 @@ class CheckFace : AppCompatActivity() {
 
         // Set match percentage
         val percentTextView = viewLayout.findViewById<TextView>(R.id.percent)
-        percentTextView.text = matching.toInt().toString()+"%"
+        percentTextView.text = accuracy.toInt().toString() + "%"
 
         // Retry button
         val checkAgainButton = viewLayout.findViewById<Button>(R.id.checkAgain)
@@ -346,6 +369,30 @@ class CheckFace : AppCompatActivity() {
         }
     }
 
+    fun showFaceNotFoundDialog(i: Student, face: FaceDetectionProcessor.ProcessedFace) {
+        stopCamera()
+        toolBar.vibrateDevice(70)
+        val binding = AlertImageNotFoundBinding.inflate(LayoutInflater.from(this))
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(binding.root)
+            .setCancelable(true)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        binding.detectionAccuracy.text = "Detection: "+ toolBar.cropToPercentage(face.confidence)+"%"
+
+        binding.tryAgain.setOnClickListener {
+            dialog.dismiss()
+            restartFaceDetection()
+        }
+        dialog.setOnCancelListener {
+            restartFaceDetection()
+        }
+
+        dialog.show()
+    }
 
     private fun restartFaceDetection() {
         faceDetectedStartTime = 0L
@@ -370,7 +417,6 @@ class CheckFace : AppCompatActivity() {
             }
         }, ContextCompat.getMainExecutor(this))
     }
-
     private fun resumeCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 

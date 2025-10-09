@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
@@ -30,8 +31,11 @@ import com.example.localbase.clickEvent.faceDetails
 import com.example.localbase.database.Student
 import com.example.localbase.database.StudentViewModel
 import com.example.localbase.databinding.ActivityDashboardBinding
+import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import java.io.File
 import javax.inject.Inject
 import kotlin.getValue
@@ -45,6 +49,8 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
     @Inject
     lateinit var toolBar: ToolBar
+
+    private var validation = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -64,25 +70,47 @@ class Dashboard : AppCompatActivity(), faceDetails {
             )
         } else {
             // Permission already granted, proceed with camera access
-            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
         }
 
         onclick()
         recycleView()
     }
 
-    private fun onclick() = with(binding) {
-        addFaceButton.setOnClickListener {
-            startActivity(Intent(this@Dashboard, MainActivity::class.java))
+    fun test(it: List<Student>) {
+        lifecycleScope.launch {
+            validation = it.size
         }
-        checkFaceButton.setOnClickListener {
-            startActivity(Intent(this@Dashboard, CheckFace::class.java))
+
+    }
+
+    private fun onclick() = with(binding) {
+        studentViewModel.allStudents.observe(this@Dashboard) { user ->
+
+            checkFaceButton.setOnClickListener {
+                if (toolBar.isCameraPermissionGranted()) {
+                    if (user.isNotEmpty()) {
+                        startActivity(Intent(this@Dashboard, CheckFace::class.java))
+                    } else {
+                        toolBar.showSnackbar(binding.root, "Add face first")
+                    }
+                } else {
+                    toolBar.showCameraPermissionDeniedDialog()
+                }
+            }
+            addFaceButton.setOnClickListener {
+                if (toolBar.isCameraPermissionGranted()) {
+                    startActivity(Intent(this@Dashboard, MainActivity::class.java))
+                }else {
+                    toolBar.showCameraPermissionDeniedDialog()
+                }
+            }
         }
     }
 
     private fun recycleView() {
         studentViewModel.allStudents.observe(this) {
-            adapterType = FaceAdapter(this, it)
+            adapterType = FaceAdapter(this, it.reversed(), toolBar)
 
             val layoutManager = GridLayoutManager(this, 2)
             binding.faceDetails.layoutManager = LinearLayoutManager(this)
@@ -95,7 +123,6 @@ class Dashboard : AppCompatActivity(), faceDetails {
         }
     }
 
-
     // Handle the result of the permission request
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
@@ -106,7 +133,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed with camera access
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
             } else {
                 // Permission denied, show a message
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
@@ -142,7 +169,8 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
         Glide.with(this)
             .load(File(student.imagePath))
-//            .circleCrop()
+            .circleCrop()
+            .transform(RotateTransformation(90f))
             .into(newImage)
 
         delete.setOnClickListener {
@@ -188,7 +216,6 @@ class Dashboard : AppCompatActivity(), faceDetails {
                 // Handle the Cancel button click
                 dialog.dismiss()
             }
-
         // Show the alert dialog
         builder.create().show()
     }

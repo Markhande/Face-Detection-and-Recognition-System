@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var faceOverlay: FaceOverlayView
     private var faceDetectedStartTime: Long = 0L
     private var hasCapturedImage = false
-    private val facePresenceThreshold = 1000L
+    private val facePresenceThreshold = 10L
 
     private var capturedBitmap: Bitmap? = null
 
@@ -87,6 +87,10 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize camera executor
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        binding.reset.setOnClickListener {
+            binding.floatArrayPoint.text = null
+        }
 
         startCamera()
 
@@ -119,8 +123,6 @@ class MainActivity : AppCompatActivity() {
 
             // Select front camera
             val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
-
-            binding.reset.setOnClickListener { }
 
             try {
                 // Unbind all use cases before rebinding
@@ -197,8 +199,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onCaptureSuccess(imageProxy: ImageProxy) {
                     val bitmap = toolBar.imageProxyToBitmap(imageProxy) ?: return
                     capturedBitmap = bitmap
-
-                    processImage(capturedBitmap!!)
+                    val imagRotaed = toolBar.rotateBitmap(capturedBitmap!!, -90f)
+                    processImage(imagRotaed)
 
                     imageProxy.close()
                 }
@@ -236,9 +238,6 @@ class MainActivity : AppCompatActivity() {
 
             val embedding = faceEmbeddingHelper.getFaceEmbedding(face.normalizedFace)
 
-            for (i in embedding){
-                Log.d("facevalue", i.toString())
-            }
             saveFaceValue(
                 face = face.normalizedFace,
                 faceDetails = embedding,
@@ -249,11 +248,11 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
-    private fun saveFaceValue(face: Bitmap, faceDetails: FloatArray, accuracy:Float){
+    private fun saveFaceValue(face: Bitmap, faceDetails: FloatArray, accuracy: Float) {
         stopCamera()
         val facevalue = toolBar.rotateBitmap(face, -90f)
 
-        val layout = LayoutInflater.from(this).inflate(R.layout.alert_save_face_details, null )
+        val layout = LayoutInflater.from(this).inflate(R.layout.alert_save_face_details, null)
 
         val alertSaveFace = AlertDialog
             .Builder(this)
@@ -271,9 +270,11 @@ class MainActivity : AppCompatActivity() {
         val saveFace = layout.findViewById<Button>(R.id.saveFaceDetails)
         val percent = layout.findViewById<TextView>(R.id.percent)
 
+        //val imageSave = toolBar.saveImageToStorage(toolBar.getBitmapFromImageView(Image)!!, "faceSample")
+
+
         Glide.with(this)
             .load(facevalue)
-            .circleCrop()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(Image)
@@ -283,27 +284,33 @@ class MainActivity : AppCompatActivity() {
             alertSaveFace.dismiss()
         }
 
-        percent.setText(toolBar.cropToPercentage(accuracy)+"%")
+        percent.setText(toolBar.cropToPercentage(accuracy) + "%")
 
-        if (toolBar.cropToPercentage(accuracy).toInt() >= 80){
+        if (toolBar.cropToPercentage(accuracy).toInt() >= 80) {
             percent.setBackgroundResource(R.drawable.background_green)
-            percent.setText("Good "+ toolBar.cropToPercentage(accuracy)+"%")
+            percent.setText("Good " + toolBar.cropToPercentage(accuracy) + "%")
             toolBar.focusEditText(getName)
             cancel.setText("Cancel")
-        }else{
+        } else {
             percent.setBackgroundResource(R.drawable.background_red)
-            percent.setText("Bad Capture "+ toolBar.cropToPercentage(accuracy)+"%")
+            percent.setText("Bad Capture " + toolBar.cropToPercentage(accuracy) + "%")
             toolBar.focusEditText(getName)
             cancel.setText("Re-Take")
             saveFace.isEnabled = false
             saveFace.text = "Disable"
         }
 
+        alertSaveFace.setOnCancelListener {
+            restartFaceDetection()
+        }
+
         saveFace.setOnClickListener {
 
-
-         val imageSave = toolBar.saveImageToStorage(toolBar.getBitmapFromImageView(Image)!!, "faceSample")
-
+            //val imageSave = toolBar.saveImageToStorage(toolBar.getBitmapFromImageView(Image)!!, getName.text.toString().trim().ifBlank { toolBar.getCurrentDate()+toolBar.getCurrentTime() })
+            val imageSave = toolBar.saveImageToStorage(
+                toolBar.getBitmapFromImageView(Image)!!,
+                getName.text.toString().trim()
+            )
             val faceData = Student(
                 date = toolBar.getCurrentDate(),
                 time = toolBar.getCurrentTime(),
@@ -380,7 +387,6 @@ class MainActivity : AppCompatActivity() {
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageAnalysis, imageCapture
                 )
-
                 Log.d("CameraX", "Camera resumed and use cases bound.")
             } catch (e: Exception) {
                 Log.e("CameraX", "Failed to bind camera use cases.", e)

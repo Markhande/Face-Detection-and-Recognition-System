@@ -3,10 +3,13 @@ package com.example.localbase.helper
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.Log
@@ -51,7 +54,9 @@ import javax.inject.Inject
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.iterator
-
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.exifinterface.media.ExifInterface
 
 
 class ToolBar
@@ -211,7 +216,6 @@ constructor(@ActivityContext private val context: Context) {
     }
 
     fun showSnackbar(view: View, message: String, duration: Int = Snackbar.LENGTH_SHORT) {
-
         Snackbar.make(view, message, duration).show()
     }
 
@@ -227,6 +231,68 @@ constructor(@ActivityContext private val context: Context) {
             .load(model)
             .circleCrop()
             .into(imageView)
+    }
+
+    fun vibrateDevice(millSec: Long = 500) {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // For Android 8.0 and above
+            val vibrationEffect = VibrationEffect.createOneShot(millSec, VibrationEffect.DEFAULT_AMPLITUDE)
+            vibrator.vibrate(vibrationEffect)
+        } else {
+            // For older Android versions
+            vibrator.vibrate(millSec)
+        }
+    }
+
+    fun logd(check:String= "check", value: String){
+        Log.d(check, value)
+    }
+
+    fun getExifRotation(path: String): Int {
+        val exif = ExifInterface(path)
+        return when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
+    }
+
+    fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            android.Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+    fun openAppInfoSettings() {
+        val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", context.packageName, null)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
+
+    fun showCameraPermissionDeniedDialog() {
+        AlertDialog.Builder(context).apply {
+            setTitle("Permission Required")
+            setMessage("You have denied the camera permission. Please go to settings and enable it to use this feature.")
+            setCancelable(false)
+
+            setPositiveButton("Go to Settings") { dialog, _ ->
+                openAppInfoSettings()
+                dialog.dismiss()
+            }
+
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            create().show()
+        }
     }
 
 }

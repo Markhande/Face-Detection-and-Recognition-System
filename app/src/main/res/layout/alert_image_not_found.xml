@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:backgroundTint="#E6424242"
+        android:background="@drawable/background_green">
+
+        <!-- Accuracy / Not Matched Indicator -->
+        <TextView
+            android:id="@+id/matchStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Face Not Recognized"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="13dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No data found for person"
+            android:textColor="#FAFAFA"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="13dp"/>
+
+        <!-- Optional: Accuracy Percentage -->
+        <TextView
+            android:id="@+id/detectionAccuracy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accuracy: 42%"
+            android:textColor="@color/white"
+            android:background="@drawable/background_red"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Try Again Button -->
+        <Button
+            android:id="@+id/tryAgain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Try Again"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/purple_500"
+            android:layout_marginTop="14dp"
+            android:padding="12dp"/>
+    </LinearLayout>
+</ScrollView>

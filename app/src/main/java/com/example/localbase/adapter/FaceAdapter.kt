@@ -12,12 +12,17 @@ import com.bumptech.glide.Glide
 import com.example.localbase.R
 import com.example.localbase.clickEvent.faceDetails
 import com.example.localbase.database.Student
+import com.example.localbase.helper.RotateTransformation
+import com.example.localbase.helper.ToolBar
 import com.google.android.material.imageview.ShapeableImageView
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import javax.inject.Inject
 
 class FaceAdapter(
     private val faceClick: faceDetails,
-    val data : List<Student>
+    private val data: List<Student>,
+    private var toolBar: ToolBar
 ) : RecyclerView.Adapter<FaceAdapter.viewHolder>() {
 
     class viewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,20 +46,21 @@ class FaceAdapter(
         position: Int
     ) {
         val faceData = data[position]
-        holder.date.text = "Date: "+faceData.date
-        holder.time.text = "Time: "+faceData.time
+        holder.date.text = "Date: " + faceData.date
+        holder.time.text = "Time: " + faceData.time
         holder.name.text = faceData.name
         holder.faceId.text = faceData.id.toString()
 
         val getRn = holder.itemView.context.getDrawable(R.drawable.birds)
 
-        Glide.with(holder.itemView.context)
-            .load(getRn)
-            .centerCrop()
-            .fitCenter()
-            .circleCrop()
-            .placeholder(getRn)
-            .into(holder.faceValue)
+        faceData.imagePath.let {
+            Glide.with(holder.itemView.context)
+                .load(File(it))
+                .transform(RotateTransformation(90f))
+                .placeholder(getRn)
+                .into(holder.faceValue)
+        }
+
 
         holder.itemView.setOnClickListener {
             faceClick.edit(faceData)
