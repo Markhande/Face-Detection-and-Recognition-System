@@ -160,6 +160,17 @@
         app:layout_constraintBaseline_toBaselineOf="@id/usersLabel"
         app:layout_constraintStart_toEndOf="@id/usersLabel" />
 
+    <ImageView
+        android:id="@+id/deleteRecord"
+        android:layout_width="25.dp"
+        android:layout_height="25.dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/userCountBadge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.858"
+        app:layout_constraintStart_toEndOf="@+id/userCountBadge"
+        app:layout_constraintTop_toTopOf="@+id/userCountBadge"></ImageView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/userListCard"
         android:layout_width="0dp"

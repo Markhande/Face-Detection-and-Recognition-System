@@ -25,11 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".view.CheckFace"
-            android:exported="false" />
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".view.Dashboard"
+            android:name=".view.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,9 +34,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
-            android:exported="false">
+            android:name=".view.CheckFace"
+            android:exported="false" />
+        <activity
+            android:name=".view.Dashboard"
+            android:exported="false"
+            android:screenOrientation="portrait">
+
         </activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -38,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.text.toInt
 import com.example.localbase.R
+import com.example.localbase.helper.RotateTransformation
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -206,11 +207,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Capture failed: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        applicationContext,
+//                        "Capture failed: ${exception.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                     Log.e("CameraX", "Image capture error", exception)
                 }
             }
@@ -275,6 +276,7 @@ class MainActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(facevalue)
+            .transform(RotateTransformation(90f))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(Image)

@@ -1,6 +1,7 @@
 package com.example.localbase.helper
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -293,6 +294,15 @@ constructor(@ActivityContext private val context: Context) {
 
             create().show()
         }
+    }
+
+    fun custAni():  ActivityOptions{
+        val options = ActivityOptions.makeCustomAnimation(
+            context,
+            R.anim.fade_in,
+            R.anim.fade_out
+        )
+        return options
     }
 
 }

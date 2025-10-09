@@ -56,7 +56,7 @@ class FaceAdapter(
         faceData.imagePath.let {
             Glide.with(holder.itemView.context)
                 .load(File(it))
-                .transform(RotateTransformation(90f))
+                .transform(RotateTransformation(0f))
                 .placeholder(getRn)
                 .into(holder.faceValue)
         }

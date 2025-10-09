@@ -2,9 +2,6 @@ package com.example.localbase.view
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.localbase.R
 import com.example.localbase.databinding.ActivityCheckFaceBinding
 import android.os.Bundle
@@ -13,66 +10,36 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.localbase.database.Student
 import com.example.localbase.database.StudentViewModel
-import com.example.localbase.databinding.ActivityMainBinding
-import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
-import android.health.connect.datatypes.units.Percentage
-import android.media.FaceDetector
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
-import android.provider.Telephony.Mms.Part.FILENAME
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.OptIn
-import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
-import java.lang.StrictMath.sqrt
-import java.nio.ByteBuffer
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.collections.toFloatArray
 import org.tensorflow.lite.Interpreter
-import java.io.ByteArrayOutputStream
-import androidx.core.graphics.createBitmap
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.localbase.databinding.AlertImageNotFoundBinding
-import com.example.localbase.databinding.AlertPresentBinding
 import com.example.localbase.face.FaceDetectionProcessor
 import com.example.localbase.face.FaceEmbeddingHelper
 import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import com.example.localbase.overlayes.FaceOverlayView
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
-import java.nio.file.Files.createFile
-import java.text.SimpleDateFormat
-import java.util.Locale
 import javax.inject.Inject
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.iterator
-import kotlin.compareTo
 import kotlin.text.toInt
-import kotlin.toString
 
 @AndroidEntryPoint
 class CheckFace : AppCompatActivity() {
@@ -104,6 +71,8 @@ class CheckFace : AppCompatActivity() {
     lateinit var faceProcessor: FaceDetectionProcessor
 
     private lateinit var temp: List<Student>
+
+    private var job : Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -242,11 +211,11 @@ class CheckFace : AppCompatActivity() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Capture failed: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        applicationContext,
+//                        "Capture failed: ${exception.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                     Log.e("CameraX", "Image capture error", exception)
                 }
             }
@@ -337,7 +306,7 @@ class CheckFace : AppCompatActivity() {
         student.imagePath?.let {
             Glide.with(this)
                 .load(File(it))
-                .transform(RotateTransformation(90f))
+                .transform(RotateTransformation(0f))
                 .into(imageDataset)
 
             Log.d("check", it)
@@ -386,9 +355,20 @@ class CheckFace : AppCompatActivity() {
         binding.tryAgain.setOnClickListener {
             dialog.dismiss()
             restartFaceDetection()
+            job?.cancel()
         }
         dialog.setOnCancelListener {
             restartFaceDetection()
+        }
+
+//        job = lifecycleScope.launch {
+//            delay(5000)
+//            dialog.dismiss()
+//            restartFaceDetection()
+//        }
+
+        dialog.setOnCancelListener {
+            job?.cancel()
         }
 
         dialog.show()

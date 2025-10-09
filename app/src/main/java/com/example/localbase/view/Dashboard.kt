@@ -92,7 +92,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
                     if (user.isNotEmpty()) {
                         startActivity(Intent(this@Dashboard, CheckFace::class.java))
                     } else {
-                        toolBar.showSnackbar(binding.root, "Add face first")
+                        toolBar.showSnackbar(binding.root, "Add face")
                     }
                 } else {
                     toolBar.showCameraPermissionDeniedDialog()
@@ -103,6 +103,13 @@ class Dashboard : AppCompatActivity(), faceDetails {
                     startActivity(Intent(this@Dashboard, MainActivity::class.java))
                 }else {
                     toolBar.showCameraPermissionDeniedDialog()
+                }
+            }
+            deleteRecord.setOnClickListener {
+                if (user.isNotEmpty()) {
+                    deleteAllRecord()
+                }else{
+                    toolBar.showSnackbar(binding.root, "Data already cleared")
                 }
             }
         }
@@ -170,7 +177,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         Glide.with(this)
             .load(File(student.imagePath))
             .circleCrop()
-            .transform(RotateTransformation(90f))
+            .transform(RotateTransformation(0f))
             .into(newImage)
 
         delete.setOnClickListener {
@@ -219,4 +226,20 @@ class Dashboard : AppCompatActivity(), faceDetails {
         // Show the alert dialog
         builder.create().show()
     }
+
+    private fun deleteAllRecord() {
+        AlertDialog.Builder(this)
+            .setTitle("Deletion!")
+            .setMessage("Do you want to delete all records?")
+            .setCancelable(true)
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Yes") { dialog, _ ->
+                studentViewModel.deleteAll()
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 }

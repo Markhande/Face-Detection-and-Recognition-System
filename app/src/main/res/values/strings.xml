@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Face FindDetect</string>
+    <string name="loading_init" />
+    <string name="loading_ai" />
+    <string name="loading_prep" />
+    <string name="loading_ready" />
 </resources>

@@ -129,5 +129,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
 
+    implementation("com.airbnb.android:lottie:6.4.0")
     //implementation("com.google.mediapipe:mediapipe-framework:0.8.22")
 }
