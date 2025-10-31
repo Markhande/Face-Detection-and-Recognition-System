@@ -13,6 +13,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -46,11 +49,16 @@ class Dashboard : AppCompatActivity(), faceDetails {
     private val studentViewModel: StudentViewModel by viewModels()
     private lateinit var adapterType: FaceAdapter
     private lateinit var binding: ActivityDashboardBinding
-
     @Inject
     lateinit var toolBar: ToolBar
-
     private var validation = 0
+
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
+        if(it != null){
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -75,6 +83,13 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
         onclick()
         recycleView()
+        openGallery()
+    }
+
+    private fun openGallery(){
+        binding.galleryCard.setOnClickListener {
+            galleryLauncher.launch("image/*")
+        }
     }
 
     fun test(it: List<Student>) {
@@ -98,7 +113,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
                     toolBar.showCameraPermissionDeniedDialog()
                 }
             }
-            addFaceButton.setOnClickListener {
+            cameraCard.setOnClickListener {
                 if (toolBar.isCameraPermissionGranted()) {
                     startActivity(Intent(this@Dashboard, MainActivity::class.java))
                 }else {

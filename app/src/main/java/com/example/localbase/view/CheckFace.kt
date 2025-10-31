@@ -145,7 +145,7 @@ class CheckFace : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    @androidx.annotation.OptIn(androidx.camera.core.ExperimentalGetImage::class)
+    @androidx.annotation.OptIn(ExperimentalGetImage::class)
     private fun processImageProxy(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
