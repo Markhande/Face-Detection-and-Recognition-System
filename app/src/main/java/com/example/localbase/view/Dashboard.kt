@@ -49,12 +49,13 @@ class Dashboard : AppCompatActivity(), faceDetails {
     private val studentViewModel: StudentViewModel by viewModels()
     private lateinit var adapterType: FaceAdapter
     private lateinit var binding: ActivityDashboardBinding
+
     @Inject
     lateinit var toolBar: ToolBar
     private var validation = 0
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        if(it != null){
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        if (it != null) {
 
         }
     }
@@ -86,7 +87,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         openGallery()
     }
 
-    private fun openGallery(){
+    private fun openGallery() {
         binding.galleryCard.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
@@ -116,14 +117,14 @@ class Dashboard : AppCompatActivity(), faceDetails {
             cameraCard.setOnClickListener {
                 if (toolBar.isCameraPermissionGranted()) {
                     startActivity(Intent(this@Dashboard, MainActivity::class.java))
-                }else {
+                } else {
                     toolBar.showCameraPermissionDeniedDialog()
                 }
             }
             deleteRecord.setOnClickListener {
                 if (user.isNotEmpty()) {
                     deleteAllRecord()
-                }else{
+                } else {
                     toolBar.showSnackbar(binding.root, "Data already cleared")
                 }
             }
@@ -163,13 +164,25 @@ class Dashboard : AppCompatActivity(), faceDetails {
         }
     }
 
-    override fun delete(student: Student) {}
+    override fun delete(student: Student) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Deletion!")
+            .setMessage("Do you want to delete this record?")
+            .setCancelable(true)
+            .setPositiveButton("Yes") { dialog, _ ->
+                studentViewModel.deleteById(student.id)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun edit(student: Student) {
 
         val viewLayout = LayoutInflater.from(this).inflate(R.layout.item_face_details, null)
-
 
         val alertEdit = AlertDialog
             .Builder(this)
@@ -190,7 +203,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         toolBar.focusEditText(newName)
 
         Glide.with(this)
-            .load(File(student.imagePath))
+            .load(File(student.imagePath.toString()))
             .circleCrop()
             .transform(RotateTransformation(0f))
             .into(newImage)

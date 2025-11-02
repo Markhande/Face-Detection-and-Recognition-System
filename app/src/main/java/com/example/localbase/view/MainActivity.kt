@@ -286,18 +286,18 @@ class MainActivity : AppCompatActivity() {
             alertSaveFace.dismiss()
         }
 
-        percent.setText(toolBar.cropToPercentage(accuracy) + "%")
+        percent.text = toolBar.cropToPercentage(accuracy) + "%"
 
         if (toolBar.cropToPercentage(accuracy).toInt() >= 80) {
             percent.setBackgroundResource(R.drawable.background_green)
-            percent.setText("Good " + toolBar.cropToPercentage(accuracy) + "%")
+            percent.text = "Good " + toolBar.cropToPercentage(accuracy) + "%"
             toolBar.focusEditText(getName)
-            cancel.setText("Cancel")
+            cancel.text = "Cancel"
         } else {
             percent.setBackgroundResource(R.drawable.background_red)
-            percent.setText("Bad Capture " + toolBar.cropToPercentage(accuracy) + "%")
+            percent.text = "Bad Capture " + toolBar.cropToPercentage(accuracy) + "%"
             toolBar.focusEditText(getName)
-            cancel.setText("Re-Take")
+            cancel.text = "Re-Take"
             saveFace.isEnabled = false
             saveFace.text = "Disable"
         }

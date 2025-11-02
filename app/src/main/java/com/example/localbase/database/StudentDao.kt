@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 
 @Dao
@@ -24,4 +25,15 @@ interface StudentDao {
 
     @Update
     suspend fun update(student: Student)
+
+    // Reset auto-increment counter
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'student_table'")
+    suspend fun resetAutoIncrement()
+
+    // Combine both operations safely
+    @Transaction
+    suspend fun deleteAllAndResetId() {
+        deleteAll()
+        resetAutoIncrement()
+    }
 }
