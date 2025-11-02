@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
-                android:backgroundTint="#DDFFFFFF">
+                app:cardBackgroundColor="#DDFFFFFF">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="12dp"
-                android:backgroundTint="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,10 +186,9 @@
                             app:cardElevation="4dp"
                             app:strokeWidth="2dp"
                             app:strokeColor="#2196F3"
-                            android:backgroundTint="#E3F2FD"
+                            app:cardBackgroundColor="#E3F2FD"
                             android:clickable="true"
-                            android:focusable="true"
-                            android:foreground="?attr/selectableItemBackground">
+                            android:focusable="true">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -235,10 +234,9 @@
                         app:cardElevation="4dp"
                         app:strokeWidth="2dp"
                         app:strokeColor="#FF9800"
-                        android:backgroundTint="#FFF3E0"
+                        app:cardBackgroundColor="#FFF3E0"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground">
+                        android:focusable="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -319,16 +317,15 @@
                         android:text="Verify Face Identity"
                         android:textSize="16sp"
                         android:textAllCaps="false"
-                        android:textColor="@android:color/white"
                         android:fontFamily="sans-serif-medium"
-                        style="@style/Widget.MaterialComponents.Button"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         app:icon="@drawable/ic_face_scan"
                         app:iconGravity="start"
                         app:iconPadding="12dp"
                         app:iconSize="28dp"
                         app:cornerRadius="16dp"
-                        android:backgroundTint="#6200EA"
-                        app:elevation="6dp" />
+                        app:elevation="6dp"
+                        app:rippleColor="#8B78F6"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -400,10 +397,9 @@
                         android:layout_height="40dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="3dp"
-                        android:backgroundTint="#F5F5F5"
+                        app:cardBackgroundColor="#F5F5F5"
                         android:clickable="true"
                         android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
                         android:layout_marginEnd="8dp">
 
                         <ImageView
@@ -445,7 +441,7 @@
                 android:layout_marginBottom="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                android:backgroundTint="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -458,6 +454,7 @@
                         android:clipToPadding="false"
                         android:padding="8dp"
                         android:overScrollMode="never"
+                        android:visibility="gone"
                         android:scrollbars="vertical"
                         tools:listitem="@layout/item_user_face"
                         app:layout_constraintTop_toTopOf="parent"

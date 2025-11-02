@@ -1,32 +1,32 @@
 package com.example.localbase.view
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.localbase.R
 import com.example.localbase.adapter.FaceAdapter
@@ -38,7 +38,6 @@ import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import java.io.File
 import javax.inject.Inject
 import kotlin.getValue
@@ -56,15 +55,19 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         if (it != null) {
-
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root){v, insets->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         // Check if permission is already granted
         if (ContextCompat.checkSelfPermission(
@@ -104,6 +107,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         studentViewModel.allStudents.observe(this@Dashboard) { user ->
 
             checkFaceButton.setOnClickListener {
+                animateCardClick(it)
                 if (toolBar.isCameraPermissionGranted()) {
                     if (user.isNotEmpty()) {
                         startActivity(Intent(this@Dashboard, CheckFace::class.java))
@@ -122,6 +126,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
                 }
             }
             deleteRecord.setOnClickListener {
+                animateCardClick(it)
                 if (user.isNotEmpty()) {
                     deleteAllRecord()
                 } else {
@@ -132,17 +137,24 @@ class Dashboard : AppCompatActivity(), faceDetails {
     }
 
     private fun recycleView() {
-        studentViewModel.allStudents.observe(this) {
-            adapterType = FaceAdapter(this, it.reversed(), toolBar)
+        studentViewModel.allStudents.observe(this) { detectedFaces ->
+            if(!detectedFaces.isNullOrEmpty()){
+                binding.faceDetails.visibility = View.VISIBLE
+                binding.emptyStateLayout.visibility = View.GONE
+                adapterType = FaceAdapter(this, detectedFaces.reversed(), toolBar)
 
-            val layoutManager = GridLayoutManager(this, 2)
-            binding.faceDetails.layoutManager = LinearLayoutManager(this)
+                binding.faceDetails.layoutManager = LinearLayoutManager(this)
 
-            binding.faceDetails.adapter = adapterType
+                binding.faceDetails.adapter = adapterType
 
-            Log.d("testing", it.map { it.imagePath }.toString())
+                Log.d("testing", detectedFaces.map { it.imagePath }.toString())
 
-            binding.userCountBadge.setText(it.size.toString())
+                binding.userCountBadge.text = detectedFaces.size.toString()
+            }else {
+                binding.faceDetails.visibility = View.GONE
+                binding.emptyStateLayout.visibility = View.VISIBLE
+                binding.userCountBadge.text = "0"
+            }
         }
     }
 
@@ -268,6 +280,20 @@ class Dashboard : AppCompatActivity(), faceDetails {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun animateCardClick(view: View) {
+        val scaleDown = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.95f).apply {
+            duration = 100
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        val scaleUp = ObjectAnimator.ofFloat(view, "scaleX", 0.95f, 1f).apply {
+            duration = 100
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        scaleDown.start()
+        scaleDown.doOnEnd { scaleUp.start() }
     }
 
 }

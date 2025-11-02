@@ -52,7 +52,6 @@
                     android:id="@+id/userAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_face_detection"
                     app:shapeAppearanceOverlay="@style/CircleImageView" />
