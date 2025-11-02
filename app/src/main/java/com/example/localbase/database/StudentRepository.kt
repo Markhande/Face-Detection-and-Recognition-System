@@ -11,7 +11,7 @@ class StudentRepository(private val studentDao: StudentDao) {
     }
 
     suspend fun deleteAll() {
-        studentDao.deleteAll()
+        studentDao.deleteAllAndResetId()
     }
 
     suspend fun deleteById(id:Int){
