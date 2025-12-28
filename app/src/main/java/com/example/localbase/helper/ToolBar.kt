@@ -62,7 +62,7 @@ import androidx.exifinterface.media.ExifInterface
 
 class ToolBar
 @Inject
-constructor(@ActivityContext private val context: Context) {
+constructor(@param:ActivityContext private val context: Context) {
 
     fun showToast(name: String = "Hello"){
         Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
