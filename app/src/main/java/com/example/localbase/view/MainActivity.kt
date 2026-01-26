@@ -41,6 +41,7 @@ import kotlin.text.toInt
 import com.example.localbase.R
 import com.example.localbase.helper.RotateTransformation
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -260,8 +261,7 @@ class MainActivity : AppCompatActivity() {
 
         val layout = LayoutInflater.from(this).inflate(R.layout.alert_save_face_details, null)
 
-        val alertSaveFace = AlertDialog
-            .Builder(this)
+        val alertSaveFace = MaterialAlertDialogBuilder(this)
             .setView(layout)
             .setCancelable(true)
             .create()

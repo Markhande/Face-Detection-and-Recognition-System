@@ -37,6 +37,7 @@ import com.example.localbase.databinding.ActivityDashboardBinding
 import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -64,7 +65,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         enableEdgeToEdge()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root){v, insets->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -139,7 +140,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
     private fun recycleView() {
         studentViewModel.allStudents.observe(this) { detectedFaces ->
-            if(!detectedFaces.isNullOrEmpty()){
+            if (!detectedFaces.isNullOrEmpty()) {
                 binding.faceDetails.visibility = View.VISIBLE
                 binding.emptyStateLayout.visibility = View.GONE
                 adapterType = FaceAdapter(this, detectedFaces.reversed(), toolBar)
@@ -151,7 +152,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
                 Log.d("testing", detectedFaces.map { it.imagePath }.toString())
 
                 binding.userCountBadge.text = detectedFaces.size.toString()
-            }else {
+            } else {
                 binding.faceDetails.visibility = View.GONE
                 binding.emptyStateLayout.visibility = View.VISIBLE
                 binding.userCountBadge.text = "0"
@@ -178,7 +179,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
     }
 
     override fun delete(student: Student) {
-        val builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
         builder.setTitle("Deletion!")
             .setMessage("Do you want to delete this record?")
             .setCancelable(true)
@@ -197,8 +198,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
         val viewLayout = LayoutInflater.from(this).inflate(R.layout.item_face_details, null)
 
-        val alertEdit = AlertDialog
-            .Builder(this)
+        val alertEdit = MaterialAlertDialogBuilder(this)
             .setView(viewLayout)
             .setCancelable(true)
             .create()
@@ -250,8 +250,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
     }
 
     private fun deleteFaceData(student: Student, alertEdit: AlertDialog) {
-        val builder = AlertDialog.Builder(this)
-
+        val builder = MaterialAlertDialogBuilder(this)
         builder.setTitle("Delete Data")
             .setMessage("Do you want delete?")
             .setPositiveButton("OK") { dialog, _ ->
@@ -265,11 +264,11 @@ class Dashboard : AppCompatActivity(), faceDetails {
                 dialog.dismiss()
             }
         // Show the alert dialog
-        builder.create().show()
+        builder.show()
     }
 
     private fun deleteAllRecord() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("Deletion!")
             .setMessage("Do you want to delete all records?")
             .setCancelable(true)
@@ -296,5 +295,4 @@ class Dashboard : AppCompatActivity(), faceDetails {
         scaleDown.start()
         scaleDown.doOnEnd { scaleUp.start() }
     }
-
 }

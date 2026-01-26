@@ -33,6 +33,7 @@ import com.example.localbase.face.FaceEmbeddingHelper
 import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
 import com.example.localbase.overlayes.FaceOverlayView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -285,7 +286,7 @@ class CheckFace : AppCompatActivity() {
     ) {
         val viewLayout = LayoutInflater.from(this).inflate(R.layout.alert_present, null)
 
-        val builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
             .setView(viewLayout)
             .setCancelable(true)
             .create()
