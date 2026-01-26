@@ -60,7 +60,6 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root){v, insets->
@@ -106,7 +105,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
     private fun onclick() = with(binding) {
         studentViewModel.allStudents.observe(this@Dashboard) { user ->
 
-            checkFaceButton.setOnClickListener {
+            verifyFaceCard.setOnClickListener {
                 animateCardClick(it)
                 if (toolBar.isCameraPermissionGranted()) {
                     if (user.isNotEmpty()) {
