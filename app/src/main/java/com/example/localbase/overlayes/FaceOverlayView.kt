@@ -78,8 +78,8 @@ class FaceOverlayView @JvmOverloads constructor(
         if (isFrontCamera) {
             val mirroredLeft = previewWidth - right
             val mirroredRight = previewWidth - left
-            left = mirroredLeft.toFloat()
-            right = mirroredRight.toFloat()
+            left = mirroredLeft
+            right = mirroredRight
         }
 
         return RectF(

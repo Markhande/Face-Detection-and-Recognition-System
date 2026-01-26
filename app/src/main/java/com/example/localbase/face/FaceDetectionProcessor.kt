@@ -22,7 +22,7 @@ import kotlin.math.min
 class FaceDetectionProcessor
 
 @Inject
-constructor(@ActivityContext private val context: Context){
+constructor(@param:ActivityContext private val context: Context) {
 
     private var faceDetector: FaceDetector
 

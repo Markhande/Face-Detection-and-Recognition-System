@@ -247,7 +247,7 @@ class CheckFace : AppCompatActivity() {
 
             //studentViewModel.insert(data)
             val embeddingStr = embedding.joinToString(", ") { "%.4f".format(it) + "f" }
-            binding.floatArrayPoint.setText(embeddingStr.toString())
+            binding.floatArrayPoint.setText(embeddingStr)
 
             studentViewModel.allStudents.observe(this) {
                 //Log.d("checking", temp.toString())
