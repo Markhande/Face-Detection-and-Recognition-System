@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.*
@@ -39,6 +40,7 @@ import javax.inject.Inject
 import kotlin.text.toInt
 import com.example.localbase.R
 import com.example.localbase.helper.RotateTransformation
+import com.google.android.material.card.MaterialCardView
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -94,6 +96,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         startCamera()
+
+        onBackPressedDispatcher.addCallback {
+            finish()
+        }
 
     }
 
@@ -248,7 +254,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("MissingInflatedId")
     private fun saveFaceValue(face: Bitmap, faceDetails: FloatArray, accuracy: Float) {
         stopCamera()
         val facevalue = toolBar.rotateBitmap(face, -90f)
@@ -270,6 +275,7 @@ class MainActivity : AppCompatActivity() {
         val cancel = layout.findViewById<TextView>(R.id.cancel_button)
         val saveFace = layout.findViewById<Button>(R.id.saveFaceDetails)
         val percent = layout.findViewById<TextView>(R.id.percent)
+        val confidenceBadge = layout.findViewById<MaterialCardView>(R.id.confidenceBadge)
 
         //val imageSave = toolBar.saveImageToStorage(toolBar.getBitmapFromImageView(Image)!!, "faceSample")
 
@@ -289,12 +295,16 @@ class MainActivity : AppCompatActivity() {
         percent.text = toolBar.cropToPercentage(accuracy) + "%"
 
         if (toolBar.cropToPercentage(accuracy).toInt() >= 80) {
-            percent.setBackgroundResource(R.drawable.background_green)
+            confidenceBadge.setCardBackgroundColor(
+                ContextCompat.getColor(this, R.color.confidence_green)
+            )
             percent.text = "Good " + toolBar.cropToPercentage(accuracy) + "%"
             toolBar.focusEditText(getName)
             cancel.text = "Cancel"
         } else {
-            percent.setBackgroundResource(R.drawable.background_red)
+            confidenceBadge.setCardBackgroundColor(
+                ContextCompat.getColor(this, R.color.confidence_red)
+            )
             percent.text = "Bad Capture " + toolBar.cropToPercentage(accuracy) + "%"
             toolBar.focusEditText(getName)
             cancel.text = "Re-Take"

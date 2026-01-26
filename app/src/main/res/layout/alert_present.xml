@@ -1,181 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/background_color"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:background="@drawable/background_glass"
-        android:layout_gravity="center">
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:padding="16dp">
 
-            <!-- Image Display -->
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_marginBottom="5.dp"
-                    android:textSize="16.sp"
-                    android:textColor="@color/white"
-                    android:text="Live"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
-
-                <ImageView
-                    android:id="@+id/imagePreview"
-                    android:layout_width="100.dp"
-                    android:layout_height="100.dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_foreground"/>
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="0.dp"
-                android:layout_height="0.dp"
-                android:layout_weight="0.5">
-            </View>
-
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_marginBottom="5.dp"
-                    android:id="@+id/accuracy"
-                    android:textSize="16.sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Accuracy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
-
-                <TextView
-                    android:id="@+id/percent"
-                    android:text="90%"
-                    android:textColor="#FFFFFF"
-                    android:background="@drawable/background_glass"
-                    android:paddingVertical="10dp"
-                    android:paddingHorizontal="20dp"
-                    android:layout_marginBottom="16dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"/>
-
-                <TextView
-                    android:id="@+id/faceId"
-                    android:textSize="20.sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="ID: 21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
-            </LinearLayout>
-
-
-
-            <View
-                android:layout_width="0.dp"
-                android:layout_height="0.dp"
-                android:layout_weight="0.5">
-            </View>
-
-            <!-- Image Display -->
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginBottom="5.dp"
-                    android:textSize="16.sp"
-                    android:textColor="@color/white"
-                    android:text="Matched"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
-
-                <ImageView
-                    android:id="@+id/showImageDataSet"
-                    android:layout_width="100.dp"
-                    android:layout_height="100.dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_foreground"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_marginVertical="5dp"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="1.dp">
-        </View>
-
+        <!-- Header -->
         <TextView
-            android:id="@+id/matchedName"
-            android:layout_marginVertical="10.sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16.dp"
-            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name: Hemant Markhande">
-        </TextView>
+            android:layout_marginBottom="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Match Result"
+            android:textColor="@color/text_color"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <!-- Save Button -->
-        <!-- Cancel Button (now styled more like a clickable button) -->
+        <!-- Comparison Section -->
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_weight="0.5"
-                android:id="@+id/checkAgain"
-                android:text="Check Again"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/purple_200"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:padding="12dp"/>
-            <View
-                android:layout_marginHorizontal="10dp"
-                android:layout_width="0.dp"
-                android:layout_height="0.dp">
-            </View>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <Button
-                android:layout_weight="0.5"
-                android:text="View More"
-                android:layout_width="match_parent"
+            <!-- Live Image Section -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/teal_700"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:padding="12dp"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Live"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardBackgroundColor="#F4EFF4"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#6750A4"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/imagePreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_foreground" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Match Info Section -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp">
+
+                <!-- Accuracy Badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#D0BCFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Accuracy"
+                            android:textColor="#21005D"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/percent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="90%"
+                            android:textColor="#21005D"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ID Badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#E8DEF8"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/faceId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:text="ID: 21"
+                        android:textColor="#21005D"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Matched Image Section -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Matched"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardBackgroundColor="#F4EFF4"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#6750A4"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/showImageDataSet"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_foreground" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="20dp"
+            android:background="#E6E0E9" />
+
+        <!-- Matched Name Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardBackgroundColor="#E8DEF8"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_person"
+                    app:tint="#6750A4" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Matched Name"
+                    android:textColor="@color/text_color"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/matchedName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="-"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- Check Again Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/checkAgain"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Check Again"
+                android:textColor="#6750A4"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp"
+                app:strokeColor="#6750A4"
+                app:strokeWidth="1dp" />
+
+            <!-- View More Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewMoreButton"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="View More"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp" />
         </LinearLayout>
 
     </LinearLayout>
-
-</ScrollView>
+</com.google.android.material.card.MaterialCardView>

@@ -7,11 +7,8 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="6dp"
-    android:backgroundTint="#FFFFFF"
     app:strokeWidth="0dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    app:cardBackgroundColor="@color/background_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -86,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="John Doe"
-                android:textColor="#1A237E"
+                android:textColor="@color/text_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"
@@ -105,7 +102,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_fingerprint"
-                    app:tint="#7E57C2"
+                    app:tint="@color/text_color"
                     android:layout_marginEnd="4dp" />
 
                 <TextView
@@ -113,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ID: 256"
-                    android:textColor="#7E57C2"
+                    android:textColor="@color/text_color"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:fontFamily="sans-serif" />
@@ -131,7 +128,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_calendar"
-                    app:tint="#9E9E9E"
+                    app:tint="@color/text_color"
                     android:layout_marginEnd="4dp" />
 
                 <TextView
@@ -139,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Added 2 days ago"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/text_color"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -249,6 +246,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 app:cardCornerRadius="18dp"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardElevation="2dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -268,6 +266,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 app:cardCornerRadius="18dp"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardElevation="2dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -288,10 +287,9 @@
                 android:layout_height="36dp"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="2dp"
-                android:backgroundTint="#FFEBEE"
+                app:cardBackgroundColor="@color/background_color"
                 android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="18dp"

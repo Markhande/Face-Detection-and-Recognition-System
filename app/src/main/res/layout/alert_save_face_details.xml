@@ -1,101 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/background_color"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:background="@drawable/background_glass"
-        android:layout_gravity="center">
+        android:padding="16dp">
 
-        <!-- Cancel Button (now styled more like a clickable button) -->
+        <!-- Header Section -->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/cancel_button"
-                android:text="Re-Take"
-                android:textColor="@color/teal_700"
-                android:background="@drawable/background_rounded2"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp"
-                android:layout_marginBottom="16dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"/>
-
-            <View
-                android:layout_weight="0.5"
-                android:layout_width="0.dp"
-                android:layout_height="0.dp">
-            </View>
-
-            <TextView
-                android:id="@+id/percent"
-                android:text="90%"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/background_glass"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp"
-                android:layout_marginBottom="16dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"/>
-        </LinearLayout>
-
-
-        <!-- Image Display -->
-        <ImageView
-            android:id="@+id/showImage"
-            android:layout_width="200.dp"
-            android:layout_height="200.dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"
-            android:layout_marginBottom="20dp"/>
-
-        <!-- Name Input -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your name"
-            app:boxStrokeColor="@color/white"
-            app:hintTextColor="@color/white"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Face Detected"
+                    android:textColor="@color/text_color"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Confirm and save details"
+                    android:textColor="@color/text_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+            <!-- Confidence Badge -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/confidenceBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:id="@+id/percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="90%"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Image Container -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/imageCard"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="240dp">
+
+                    <ImageView
+                        android:id="@+id/showImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_foreground" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Corner Accents -->
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="3dp"
+                    android:background="#6750A4"
+                    app:layout_constraintStart_toStartOf="@id/imageCard"
+                    app:layout_constraintTop_toTopOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="24dp"
+                    android:background="#6750A4"
+                    app:layout_constraintStart_toStartOf="@id/imageCard"
+                    app:layout_constraintTop_toTopOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="3dp"
+                    android:background="#6750A4"
+                    app:layout_constraintEnd_toEndOf="@id/imageCard"
+                    app:layout_constraintTop_toTopOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="24dp"
+                    android:background="#6750A4"
+                    app:layout_constraintEnd_toEndOf="@id/imageCard"
+                    app:layout_constraintTop_toTopOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="3dp"
+                    android:background="#6750A4"
+                    app:layout_constraintBottom_toBottomOf="@id/imageCard"
+                    app:layout_constraintStart_toStartOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="24dp"
+                    android:background="#6750A4"
+                    app:layout_constraintBottom_toBottomOf="@id/imageCard"
+                    app:layout_constraintStart_toStartOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="3dp"
+                    android:background="#6750A4"
+                    app:layout_constraintBottom_toBottomOf="@id/imageCard"
+                    app:layout_constraintEnd_toEndOf="@id/imageCard" />
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="24dp"
+                    android:background="#6750A4"
+                    app:layout_constraintBottom_toBottomOf="@id/imageCard"
+                    app:layout_constraintEnd_toEndOf="@id/imageCard" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Name Input Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Enter name"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:hintTextColor="@color/text_color">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/DetectedfaceName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <!-- Save Button -->
-        <Button
-            android:id="@+id/saveFaceDetails"
-            android:text="Save"
+        <!-- Action Buttons -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_200"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:padding="12dp"/>
-    </LinearLayout>
+            android:gravity="end"
+            android:orientation="horizontal">
 
-</ScrollView>
+            <!-- Re-Take Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Re-Take"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp" />
+
+            <!-- Save Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveFaceDetails"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Save"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

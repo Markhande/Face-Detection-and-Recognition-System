@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color" >#FF000000</color>
+    <color name="text_color">#FFFFFFFF</color>
+    <color name="confidence_green">#2E7D32</color>
+    <color name="confidence_red">#C62828</color>
+</resources>

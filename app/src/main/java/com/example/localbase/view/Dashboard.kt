@@ -36,6 +36,7 @@ import com.example.localbase.database.StudentViewModel
 import com.example.localbase.databinding.ActivityDashboardBinding
 import com.example.localbase.helper.RotateTransformation
 import com.example.localbase.helper.ToolBar
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -60,6 +61,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root){v, insets->
@@ -207,7 +209,7 @@ class Dashboard : AppCompatActivity(), faceDetails {
         val newName = viewLayout.findViewById<EditText>(R.id.updateName)
         val cancelBtn = viewLayout.findViewById<TextView>(R.id.updatecancelBtn)
         val newImage = viewLayout.findViewById<ImageView>(R.id.updateImage)
-        val delete = viewLayout.findViewById<TextView>(R.id.updatedeleteButton)
+        val delete = viewLayout.findViewById<MaterialCardView>(R.id.updatedeleteButton)
         val button = viewLayout.findViewById<Button>(R.id.updateFaceDetails)
 
         newName.setText(student.name)
